@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VikG Typing School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300&display=swap" rel="stylesheet">
+    <style>
+         * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Literata', serif;
+        }
+
+        body {
+            background-color: #454545;
+        }
+
+        .maindiv {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centerdiv {
+            text-align: center;
+        }
+
+        h1 {
+            text-transform: capitalize;
+            margin-bottom: 20px;
+            color: #fffff4;
+            font-size: 2rem;
+        }
+
+        .box {
+            background-color: #93FFE8;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        textarea {
+            background-color: #444;
+            border: 10px solid #FFFFF7;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 600px; /* Adjust the maximum width as needed */
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 5px solid #93FFE8;
+            background: #ecf0f1;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: blue;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .box {
+                padding: 10px;
+            }
+
+            textarea {
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+<div class="box"></div>
+<div class="maindiv">
+    <div class="centerdiv">
+        <h1>Welcome To VikG Typing School</h1>
+        <h1>Typing Speed Test</h1>
+        <h2 id="msg"></h2>
+        <br>
+        <textarea id="mywords" cols="100" rows="10" placeholder="Start Typing Here...."></textarea>
+        <br>
+        <button id="btn" class="mainbtn">Start</button>
+    </div>
+</div>
+
+
+<script>
+const sentence = ["how fast did you know there was a pan in the tree and a rat came down to eat the orange you" ,"knocked down the sink was hot and the city was cold so the van came around the corner to help the people and everyone was happy and expressed glee thank you for being so nice I was lost and you found me typing random stuff"," that appears to be easily typed fast and makes it simple and easier to get high words per minute thank you ",
+"The curious cat with a mischievous glint in its eye explored the sun-dappled forest, its whiskers twitching in anticipation of new adventures.","As the waves gently kissed the sandy shore, the seagulls soared overhead, their calls echoing through the salty breeze.",
+"In the bustling city, neon lights illuminated the streets as people hurriedly made their way through the urban labyrinth.",
+"Beneath the starry night sky, a campfire crackled and friends shared stories of their wildest adventures.",
+"The old bookstore on the corner was a treasure trove of forgotten tales and dusty volumes waiting to be discovered.",
+"Amidst the vibrant market, the aroma of exotic spices and sizzling street food wafted through the air, enticing passersby."]
+const msg = document.getElementById('msg') ;
+const typeWords = document.getElementById('mywords');
+const btn = document.getElementById('btn');
+let starttime, endTime;
+
+const playGame = () => {
+   let randomnumber = Math.floor(Math.random()*sentence.length);
+   msg.innerText = sentence[randomnumber];
+   let date = new Date();
+   starttime = date.getTime();
+   btn.innerText = "Ok";
+}
+const endPlay = () => {
+     let date = new Date();
+   endtime = date.getTime();
+   let totaltime = ((endtime - starttime)/1000);
+   console.log(totaltime);
+   
+   let totalstr = typeWords.value;
+   let wordcount = wordcounter(totalstr); 
+   let speed = Math.round((wordcount / totaltime)*60);
+   let finish = "You typed total " +" " +  wordcount +" " +  "words" +" "+ "at" + " "+ speed +" "+ "words per minute"; 
+    finish += comparewords(msg.innerText, totalstr);
+   msg.innerText = finish;
+   typeWords.value = "";
+}
+
+
+
+const wordcounter = (str) => {
+   let response = str.split(" ").length;
+   console.log(response);
+   return response;
+} 
+const comparewords = (str1, str2) => {
+   let words1 = str1.split(" ");
+   let words2 = str2.split(" ");
+   let cnt=0;
+
+   words1.forEach(function(item,index){
+   if (item == words2[index]){
+    cnt++;
+}
+
+})
+  let errorwords = (words1.length - cnt); 
+   return ( " "+cnt + " correct out of " + words1.length + " words and the total number of error are " + errorwords + "." ) ;
+}
+
+
+btn.addEventListener('click', function(){
+  
+  if(this.innerText == 'Start'){
+    typeWords.disabled = false;
+    playGame();
+}
+else if (this.innerText == "Ok"){
+     typeWords.disabled = true;
+     btn.innerText = "Start";
+     endPlay();
+     typeWords.value = "";
+}
+
+
+})
+
+
+</script>
+</body>
+</html>
+
+
+
